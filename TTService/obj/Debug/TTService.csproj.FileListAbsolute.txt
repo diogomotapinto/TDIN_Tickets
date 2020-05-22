@@ -4,3 +4,9 @@ C:\Users\Diogo\OneDrive\Área de Trabalho\TTs\TTService\obj\Debug\TTService.cspr
 C:\Users\Diogo\OneDrive\Área de Trabalho\TTs\TTService\obj\Debug\TTService.csproj.CoreCompileInputs.cache
 C:\Users\Diogo\OneDrive\Área de Trabalho\TTs\TTService\obj\Debug\TTService.dll
 C:\Users\Diogo\OneDrive\Área de Trabalho\TTs\TTService\obj\Debug\TTService.pdb
+C:\Users\Diogo\Documents\TDIN_Tickets\TTService\bin\Debug\TTService.dll
+C:\Users\Diogo\Documents\TDIN_Tickets\TTService\bin\Debug\TTService.pdb
+C:\Users\Diogo\Documents\TDIN_Tickets\TTService\obj\Debug\TTService.csprojAssemblyReference.cache
+C:\Users\Diogo\Documents\TDIN_Tickets\TTService\obj\Debug\TTService.csproj.CoreCompileInputs.cache
+C:\Users\Diogo\Documents\TDIN_Tickets\TTService\obj\Debug\TTService.dll
+C:\Users\Diogo\Documents\TDIN_Tickets\TTService\obj\Debug\TTService.pdb
