@@ -11,3 +11,16 @@ C:\Users\Diogo\OneDrive\Área de Trabalho\TTs\TTClient\obj\Debug\TTClient.csproj
 C:\Users\Diogo\OneDrive\Área de Trabalho\TTs\TTClient\obj\Debug\TTClient.csproj.CopyComplete
 C:\Users\Diogo\OneDrive\Área de Trabalho\TTs\TTClient\obj\Debug\TTClient.exe
 C:\Users\Diogo\OneDrive\Área de Trabalho\TTs\TTClient\obj\Debug\TTClient.pdb
+C:\Users\Diogo\Documents\TDIN_Tickets\TTClient\obj\Debug\TTClient.csprojAssemblyReference.cache
+C:\Users\Diogo\Documents\TDIN_Tickets\TTClient\obj\Debug\TTClient.Form1.resources
+C:\Users\Diogo\Documents\TDIN_Tickets\TTClient\obj\Debug\TTClient.Properties.Resources.resources
+C:\Users\Diogo\Documents\TDIN_Tickets\TTClient\obj\Debug\TTClient.csproj.GenerateResource.cache
+C:\Users\Diogo\Documents\TDIN_Tickets\TTClient\obj\Debug\TTClient.csproj.CoreCompileInputs.cache
+C:\Users\Diogo\Documents\TDIN_Tickets\TTClient\obj\Debug\TTClient.exe
+C:\Users\Diogo\Documents\TDIN_Tickets\TTClient\obj\Debug\TTClient.pdb
+C:\Users\Diogo\Documents\TDIN_Tickets\TTClient\bin\Debug\TTClient.exe.config
+C:\Users\Diogo\Documents\TDIN_Tickets\TTClient\bin\Debug\TTClient.exe
+C:\Users\Diogo\Documents\TDIN_Tickets\TTClient\bin\Debug\TTClient.pdb
+C:\Users\Diogo\Documents\TDIN_Tickets\TTClient\bin\Debug\TTService.dll
+C:\Users\Diogo\Documents\TDIN_Tickets\TTClient\bin\Debug\TTService.pdb
+C:\Users\Diogo\Documents\TDIN_Tickets\TTClient\obj\Debug\TTClient.csproj.CopyComplete

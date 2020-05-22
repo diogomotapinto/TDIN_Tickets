@@ -53,7 +53,7 @@ namespace TTService
                 try
                 {
                     c.Open();
-                    string sql = "select Id, Problem, Status, Answer from TTickets where Author=@a1";
+                    string sql = "select Id, Problem, Title, Status, Answer from TTickets where Author=@a1";
                     SqlCommand cmd = new SqlCommand(sql, c);
                     cmd.Parameters.AddWithValue("@a1", author);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
