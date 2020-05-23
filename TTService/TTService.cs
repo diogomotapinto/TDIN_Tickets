@@ -47,7 +47,32 @@ namespace TTService
             return id;
         }
 
+        public void AddUser(string username)
+        {
+            Console.WriteLine(username);
+            int id = 0;
+            using (SqlConnection c = new SqlConnection(database))
+            {
+                try
+                {
+                    c.Open();
+                    string sql = "insert into Employees(Name) values (@a1)"; // injection protection
+                    SqlCommand cmd = new SqlCommand(sql, c);                                                       // injection protection
+                    cmd.Parameters.AddWithValue("@a1", username);
+                    cmd.ExecuteNonQuery();
+                    cmd.CommandText = "select max(Id) from Employees";
+                    id = (int)cmd.ExecuteScalar();
+                }
+                catch (SqlException)
+                {
+                }
+                finally
+                {
+                    c.Close();
+                }
+            }
 
+        }
 
         public DataTable GetTickets(string author)
         {

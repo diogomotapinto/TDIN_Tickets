@@ -45,6 +45,11 @@ class TTProxy : ClientBase<ITTService>, ITTService
         throw new NotImplementedException();
     }
 
+    public void AddUser(string username)
+    {
+        throw new NotImplementedException();
+    }
+
     public DataTable GetTickets(string author)
     {
         return Channel.GetTickets(author);

@@ -21,5 +21,10 @@ namespace TTClient
         {
             return Channel.AddTicket(author, desc, title);
         }
+
+        public void AddUser(string username)
+        {
+            Channel.AddUser(username);
+        }
     }
 }

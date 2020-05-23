@@ -19,6 +19,9 @@ namespace TTService
         [OperationContract]
         DataTable GetUsers();
 
+        [WebInvoke(Method = "POST", UriTemplate = "/users/add", BodyStyle = WebMessageBodyStyle.WrappedRequest, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        [OperationContract]
+        void AddUser(string username);
 
 
     }
