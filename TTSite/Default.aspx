@@ -57,7 +57,8 @@
             <p>
                 <asp:Label ID="Label2" runat="server" Font-Bold="True" Font-Names="Arial" ForeColor="Red"></asp:Label>
             </p>
-
+            <h2>Page to see the tickets </h2>
+            <asp:HyperLink href="List.aspx" runat="server" Text="Go to list page"></asp:HyperLink>
         </div>
     </form>
 </body>
