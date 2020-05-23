@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="ITTService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TTProxy.cs" />
     <Compile Include="TTService.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -61,27 +61,3 @@ public partial class _Default : Page
         }
     }
 }
-
-class TTProxy : ClientBase<ITTService>, ITTService
-{
-    public DataTable GetUsers()
-    {
-        return Channel.GetUsers();
-    }
-
-    public DataTable GetTickets(string author)
-    {
-        return Channel.GetTickets(author);
-    }
-
-    public int AddTicket(string author, string desc, string title)
-    {
-        return Channel.AddTicket(author, desc, title);
-    }
-
-    public void AddUser(string username)
-    {
-        throw new NotImplementedException();
-    }
-}
-

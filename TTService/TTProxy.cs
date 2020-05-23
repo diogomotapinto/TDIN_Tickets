@@ -2,10 +2,10 @@
 using System.ServiceModel;
 using TTService;
 
-namespace TTClient
+namespace TTService
 {
 
-    class TTProxy : ClientBase<ITTService>, ITTService
+    public class TTProxy : ClientBase<ITTService>, ITTService
     {
         public DataTable GetUsers()
         {
