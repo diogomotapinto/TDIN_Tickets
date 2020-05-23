@@ -29,23 +29,7 @@ namespace TTClient
         }
     }
 
-    // Manual proxy to the service (in alternative to direct HTTP requests)
-    class TTProxy : ClientBase<ITTService>, ITTService
-    {
-        public DataTable GetUsers()
-        {
-            return Channel.GetUsers();
-        }
 
-        public DataTable GetTickets(string author)
-        {
-            return Channel.GetTickets(author);
-        }
 
-        public int AddTicket(string author, string desc, string title)
-        {
-            return Channel.AddTicket(author, desc, title);
-        }
-    }
 
 }
