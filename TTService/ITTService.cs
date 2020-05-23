@@ -15,6 +15,10 @@ namespace TTService
         [OperationContract]
         DataTable GetTickets(string author);
 
+        [WebGet(UriTemplate = "/tickets/get/{assign}", ResponseFormat = WebMessageFormat.Json)]
+        [OperationContract]
+        DataTable GetTicketsAssign(string assign);
+
         [WebGet(UriTemplate = "/users", ResponseFormat = WebMessageFormat.Json)]
         [OperationContract]
         DataTable GetUsers();

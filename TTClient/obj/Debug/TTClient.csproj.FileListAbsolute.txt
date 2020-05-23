@@ -25,3 +25,4 @@ C:\Users\Diogo\Documents\TDIN_Tickets\TTClient\bin\Debug\TTService.dll
 C:\Users\Diogo\Documents\TDIN_Tickets\TTClient\bin\Debug\TTService.pdb
 C:\Users\Diogo\Documents\TDIN_Tickets\TTClient\obj\Debug\TTClient.csproj.CopyComplete
 C:\Users\Diogo\Documents\TDIN_Tickets\TTClient\obj\Debug\TTClient.Login.resources
+C:\Users\Diogo\Documents\TDIN_Tickets\TTClient\obj\Debug\TTClient.ITPage.resources
