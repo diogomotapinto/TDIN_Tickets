@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace TTClient
@@ -7,13 +8,16 @@ namespace TTClient
     {
         /// <summary>
         /// The main entry point for the application.
-        /// </summary>
+        /// </summary>      
+       
         [STAThread]
         static void Main()
         {
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+            Application.Run(new Login());
         }
     }
 }
