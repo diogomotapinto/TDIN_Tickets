@@ -37,26 +37,3 @@ public partial class List : System.Web.UI.Page
         }
     }
 }
-
-class TTProxy : ClientBase<ITTService>, ITTService
-{
-    public int AddTicket(string author, string problem, string title)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void AddUser(string username)
-    {
-        throw new NotImplementedException();
-    }
-
-    public DataTable GetTickets(string author)
-    {
-        return Channel.GetTickets(author);
-    }
-
-    public DataTable GetUsers()
-    {
-        return Channel.GetUsers();
-    }
-}
