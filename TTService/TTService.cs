@@ -49,7 +49,7 @@ namespace TTService
 
         public void AddUser(string username)
         {
-            Console.WriteLine(username);
+
             int id = 0;
             using (SqlConnection c = new SqlConnection(database))
             {
@@ -104,15 +104,13 @@ namespace TTService
         {
 
             DataTable result = new DataTable("TTickets");
-
             using (SqlConnection c = new SqlConnection(database))
             {
                 try
                 {
                     c.Open();
-                    string sql = "select Id, Problem, Title, State, Date,Status, Answer from TTickets where State='unassigned'";
+                    string sql = "select * from TTickets";
                     SqlCommand cmd = new SqlCommand(sql, c);
-                    //cmd.Parameters.AddWithValue("@un", "unassigned");
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     adapter.Fill(result);
                 }
