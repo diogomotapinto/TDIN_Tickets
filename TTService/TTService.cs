@@ -109,9 +109,8 @@ namespace TTService
                 try
                 {
                     c.Open();
-                    string sql = "select Id, Problem, Title, State, Date,Status, Answer from TTickets where State=unassigned OR State=@assign";
+                    string sql = "select Id, Problem, Title, State, Date,Status, Answer from TTickets where State=unassigned";
                     SqlCommand cmd = new SqlCommand(sql, c);
-                    cmd.Parameters.AddWithValue("@assign", assign);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     adapter.Fill(result);
                 }

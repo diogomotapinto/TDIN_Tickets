@@ -55,16 +55,25 @@ namespace TTClient
 
             queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
 
-            messages = queue.GetAllMessages();
-
-            foreach (System.Messaging.Message msq in messages)
+            try
             {
-                Console.WriteLine("--------------------\r\n");
-                Console.WriteLine("Body = " + (string)msq.Body);
-                Console.WriteLine("\r\n");
-                Console.WriteLine("Id = " + msq.Id);
-                Console.WriteLine("\r\n--------------------\r\n");
+                messages = queue.GetAllMessages();
+                foreach (System.Messaging.Message msq in messages)
+                {
+                    Console.WriteLine("--------------------\r\n");
+                    Console.WriteLine("Body = " + (string)msq.Body);
+                    Console.WriteLine("\r\n");
+                    Console.WriteLine("Id = " + msq.Id);
+                    Console.WriteLine("\r\n--------------------\r\n");
+                }
             }
+            catch (Exception)
+            {
+
+            }
+
+
+
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
