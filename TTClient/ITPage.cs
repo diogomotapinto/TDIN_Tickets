@@ -20,7 +20,7 @@ namespace TTClient
             qeue.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
             this.user = user;
             // get tickets from a user and display them
-            DataTable tickets = proxy.GetTickets(id);
+            DataTable tickets = proxy.GetTicketsAssign(id);
             dataGridView1.DataSource = tickets;
 
             if (MessageQueue.Exists(qeuePath.Trim()))
