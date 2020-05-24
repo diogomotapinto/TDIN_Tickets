@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TTService
 {
-    class Ticket
+    public class Ticket
     {
         private string authorName;
         private string authorEmail;
