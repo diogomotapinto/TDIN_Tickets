@@ -9,13 +9,15 @@ namespace TTClient
     {
         TTProxy proxy;
         private string qeuePath = @".\private$\ticketsqeue";
-        MessageQueue queue;
+        public MessageQueue qeue;
         private System.Messaging.Message[] messages;
         string user;
         public ITPage(string user, string id)
         {
             InitializeComponent();
             proxy = new TTProxy();
+            qeue = new MessageQueue();
+            qeue.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
             this.user = user;
             // get tickets from a user and display them
             DataTable tickets = proxy.GetTickets(id);
@@ -24,6 +26,8 @@ namespace TTClient
             if (MessageQueue.Exists(qeuePath.Trim()))
             {
                 Console.WriteLine("MessageQeue Exists");
+                qeue.Path = qeuePath.Trim();
+
             }
             else
             {
@@ -38,6 +42,7 @@ namespace TTClient
             try
             {
                 MessageQueue.Create(qeuePath.Trim());
+                qeue.Path = qeuePath.Trim();
                 Console.WriteLine("Message Qeue Created");
             }
             catch (Exception e)
@@ -47,6 +52,16 @@ namespace TTClient
 
         }
 
+        private void receiveMsg(object sender, EventArgs e)
+        {
+            System.Messaging.Message msq = qeue.Receive(new TimeSpan(0, 0, 2));
+            msq.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
+            receiveTB.Text = (string)msq.Body;
+        }
 
+        private void sendMsg(object sender, EventArgs e)
+        {
+            qeue.Send((string)sendTB.Text.Trim());
+        }
     }
 }
