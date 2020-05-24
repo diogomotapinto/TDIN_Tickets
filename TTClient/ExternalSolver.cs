@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Messaging;
 using TTService;
+using System.Collections;
 
 namespace TTClient
 {
@@ -18,6 +19,8 @@ namespace TTClient
         MessageQueue queue;
         private System.Messaging.Message[] messages;
         private int selectedTicketIndex = 0;
+        private ArrayList availableTickets = new ArrayList();
+
         public ExternalSolver()
         {
             InitializeComponent();
@@ -51,21 +54,17 @@ namespace TTClient
 
         }
 
-        private void updateNewIndex(object sender, EventArgs e)
-        {
-            selectedTicketIndex = listBox1.SelectedIndex;
-        }
-
         private void loadMessagesToList()
         {
-            Ticket[] a = new Ticket[] { new Ticket("a", "b", "titlo1", "hello", new DateTime()), new Ticket("d", "b", "titlo2", "hello", new DateTime()), new Ticket("e", "b", "titlo3", "hello", new DateTime()) };
-
-            for (int i = 0; i < a.Length; i++)
+            availableTickets.Add(new Ticket("Duarte", "dnc.1@gmail.com", "Não consigo ter VPN", "Já tentei de tudo mas esta merda nao da.", new DateTime(2020, 2, 11)));
+            availableTickets.Add(new Ticket("d", "b", "titlo2", "hello", new DateTime()));
+            availableTickets.Add(new Ticket("e", "b", "titlo3", "hello", new DateTime()));
+            int index = 0;
+            foreach (Ticket t in availableTickets)
             {
-                listBox1.Items.Insert(i, a[i].Title);
+                listBox1.Items.Insert(index, t.Title);
+                index++;
             }
-
-            listBox1.SelectedIndexChanged += updateNewIndex;
         }
 
 
@@ -91,7 +90,22 @@ namespace TTClient
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            selectedTicketIndex = listBox1.SelectedIndex;
+            displayTicketInfo();
 
+        }
+
+        private void displayTicketInfo()
+        {
+            Ticket toDisplay = (Ticket)availableTickets[selectedTicketIndex];
+
+            textBox2.Text = "";
+
+            textBox2.Text += "Title: " + toDisplay.Title;
+
+            textBox2.Text += "\r\n\r\nDescription: " + toDisplay.Description;
+
+            textBox2.Text += "\r\n\r\nCreated by " + toDisplay.AuthorName + " on " + toDisplay.Creation.ToString();
         }
     }
 }
