@@ -26,5 +26,10 @@ namespace TTService
         {
             Channel.AddUser(username);
         }
+
+        public DataTable GetTicketsAssign(string assign)
+        {
+            return Channel.GetTicketsAssign(assign);
+        }
     }
 }
