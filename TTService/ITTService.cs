@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 
@@ -25,7 +26,7 @@ namespace TTService
 
         [WebInvoke(Method = "POST", UriTemplate = "/users/add", BodyStyle = WebMessageBodyStyle.WrappedRequest, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         [OperationContract]
-        void AddUser(string username);
+        Boolean AddUser(string username, string role);
 
 
     }

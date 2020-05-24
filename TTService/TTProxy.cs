@@ -22,9 +22,9 @@ namespace TTService
             return Channel.AddTicket(author, desc, title);
         }
 
-        public void AddUser(string username)
+        public bool AddUser(string username, string role)
         {
-            Channel.AddUser(username);
+            return Channel.AddUser(username, role);
         }
 
         public DataTable GetTicketsAssign(string assign)

@@ -50,6 +50,14 @@ namespace TTClient
             Hide();
 
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Register page = new Register();
+            page.Tag = this;
+            page.Show(this);
+            Hide();
+        }
     }
 
 
