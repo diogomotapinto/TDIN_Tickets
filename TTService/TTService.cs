@@ -15,6 +15,32 @@ namespace TTService
             database = String.Format(connection, AppDomain.CurrentDomain.BaseDirectory);
         }
 
+        public void AddAnswer(string answer, string ticketId)
+        {
+            DataTable result = new DataTable("TTickets");
+
+            using (SqlConnection c = new SqlConnection(database))
+            {
+                try
+                {
+                    c.Open();
+                    string sql = "Update TTickets SET Answer=@answer, State='solved' Where Id=@ticketId";
+
+                    SqlCommand cmd = new SqlCommand(sql, c);
+                    cmd.Parameters.AddWithValue("@answer", answer);
+                    cmd.Parameters.AddWithValue("@ticketId", ticketId);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                }
+                finally
+                {
+                    c.Close();
+                }
+            }
+        }
+
         public int AddTicket(string author, string problem, string title)
         {
             int id = 0;
@@ -78,6 +104,11 @@ namespace TTService
 
             return true;
 
+        }
+
+        public void AddWating(string ticketId)
+        {
+            return;
         }
 
         public DataTable GetTickets(string author)

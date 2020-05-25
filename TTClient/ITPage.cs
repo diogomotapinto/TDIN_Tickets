@@ -16,12 +16,14 @@ namespace TTClient
         string user;
         string loggedid;
         DataTable userT;
+        string selectCell;
         Dictionary<string, string> userDict;
         ArrayList ticketList;
         public ITPage(string user, string id)
         {
             InitializeComponent();
             loggedid = id;
+            selectCell = null;
             proxy = new TTProxy();
             qeue = new MessageQueue();
             userT = proxy.GetUsers();
@@ -57,7 +59,7 @@ namespace TTClient
             foreach (DataRow row in tickets.Rows)
             {
                 string elemState = row["State"].ToString();
-                if (!(elemState == "unassigned" || elemState == user))
+                if (!(elemState == "unassigned" || elemState == user || elemState == "solved"))
                 {
                     row.Delete();
                 }
@@ -136,6 +138,25 @@ namespace TTClient
             }
             proxy.updateAssigned(userName, tic.Id);
             refreshDataTB(loggedid);
+        }
+
+
+
+        private void SubmitAnswer(object sender, EventArgs e)
+        {
+            string answer = answerBox.Text;
+            if (selectLabel != null)
+            {
+                proxy.AddAnswer(answer, selectCell);
+                refreshDataTB(loggedid);
+                answerBox.Text = "";
+            }
+        }
+
+        private void SelectCell(object sender, DataGridViewCellEventArgs e)
+        {
+            selectCell = (dataGridView1.CurrentCell.RowIndex + 1).ToString();
+            selectLabel.Text = "Id of the Ticket selected: " + selectCell + "";
         }
     }
 }

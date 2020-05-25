@@ -36,5 +36,15 @@ namespace TTService
         {
             Channel.updateAssigned(userId, ticketId);
         }
+
+        public void AddAnswer(string answer, string ticketId)
+        {
+            Channel.AddAnswer(answer, ticketId);
+        }
+
+        public void AddWating(string ticketId)
+        {
+            return;
+        }
     }
 }
