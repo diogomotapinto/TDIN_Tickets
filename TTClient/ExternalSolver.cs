@@ -21,7 +21,7 @@ namespace TTClient
         private int selectedTicketIndex = 0;
         private ArrayList availableTickets = new ArrayList();
 
-        public ExternalSolver()
+        public ExternalSolver(User currentUser)
         {
             InitializeComponent();
         }
