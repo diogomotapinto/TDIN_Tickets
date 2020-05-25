@@ -142,7 +142,7 @@ namespace TTService
                 try
                 {
                     c.Open();
-                    string sql = "select Id, Name from Employees";
+                    string sql = "select Id, Name, Role from Employees";
                     SqlCommand cmd = new SqlCommand(sql, c);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     adapter.Fill(result);
