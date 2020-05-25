@@ -44,3 +44,4 @@ C:\Users\dnc18\Documents\Prog\TDIN_Tickets\TTClient\obj\Debug\TTClient.csproj.Co
 C:\Users\dnc18\Documents\Prog\TDIN_Tickets\TTClient\obj\Debug\TTClient.csproj.CopyComplete
 C:\Users\dnc18\Documents\Prog\TDIN_Tickets\TTClient\obj\Debug\TTClient.exe
 C:\Users\dnc18\Documents\Prog\TDIN_Tickets\TTClient\obj\Debug\TTClient.pdb
+C:\Users\Diogo\Documents\TDIN_Tickets\TTClient\obj\Debug\TTClient.Register.resources

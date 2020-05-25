@@ -14,19 +14,24 @@ namespace TTClient
         public MessageQueue qeue;
         private System.Messaging.Message[] messages;
         string user;
+        string loggedid;
+        DataTable userT;
+        Dictionary<string, string> userDict;
         ArrayList ticketList;
         public ITPage(string user, string id)
         {
             InitializeComponent();
+            loggedid = id;
             proxy = new TTProxy();
             qeue = new MessageQueue();
             qeue.Formatter = new XmlMessageFormatter(new Type[] { typeof(Ticket) });
+            userT = proxy.GetUsers();
             this.user = user;
             // get tickets from a user and display them
-            DataTable tickets = proxy.GetTicketsAssign(id);
+            DataTable tickets = filterData();
             dataGridView1.DataSource = tickets;
             ticketList = Ticket.getTickets(tickets);
-            ticketList = ticketList;
+            userDict = new Dictionary<string, string>();
 
             usersDropDown();
             ticketsDropDown();
@@ -46,6 +51,26 @@ namespace TTClient
 
         }
 
+        public DataTable filterData()
+        {
+            DataTable tickets = proxy.GetTicketsAssign(loggedid);
+            foreach (DataRow row in tickets.Rows)
+            {
+                string elemState = row["State"].ToString();
+                if (!(elemState == "unassigned" || elemState == user))
+                {
+                    row.Delete();
+                }
+            }
+            return tickets;
+        }
+
+        public void refreshDataTB(string id)
+        {
+            DataTable tickets = filterData();
+            dataGridView1.DataSource = tickets;
+        }
+
         public void ticketsDropDown()
         {
             var titleList = new List<string>();
@@ -53,7 +78,7 @@ namespace TTClient
             {
                 if (elem.State == "unassigned")
                 {
-                    titleList.Add(elem.AuthorName);
+                    titleList.Add(elem.Id);
                 }
             }
             //Setup data binding
@@ -63,7 +88,6 @@ namespace TTClient
 
         public void usersDropDown()
         {
-            DataTable userT = proxy.GetUsers();
             var namesList = new List<String>();
             DataColumn dataColumn = userT.Columns["Name"];
             DataColumn idColumn = userT.Columns["Id"];
@@ -72,7 +96,7 @@ namespace TTClient
             {
                 String elemName = row.Field<string>(dataColumn);
                 int elemId = row.Field<int>(idColumn);
-
+                userDict.Add(elemName, elemId.ToString());
                 namesList.Add(elemName);
             }
 
@@ -153,7 +177,20 @@ namespace TTClient
 
         private void onSubmit(object sender, EventArgs e)
         {
-
+            // buscar id do utilizador
+            string userId = userDict[usersCB.Text];
+            string userName = usersCB.Text;
+            // buscar id to ticket 
+            Ticket tic = null;
+            foreach (Ticket elem in ticketList)
+            {
+                if (elem.Id == ticketsCB.Text)
+                {
+                    tic = elem;
+                }
+            }
+            proxy.updateAssigned(userName, tic.Id);
+            refreshDataTB(loggedid);
         }
     }
 }

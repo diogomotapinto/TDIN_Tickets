@@ -22,6 +22,7 @@ namespace TTService
         {
 
         }
+        private string id;
         public Ticket(string name, string email, string title, string desc, DateTime creation)
         {
             this.AuthorName = name;
@@ -36,6 +37,8 @@ namespace TTService
         public string Title { get => title; set => title = value; }
         public DateTime Creation { get => creation; set => creation = value; }
         public string Description { get => description; set => description = value; }
+        public string Id { get => id; set => id = value; }
+
 
         public string State { get => state; set => state = value; }
 
@@ -46,11 +49,14 @@ namespace TTService
 
             foreach (DataRow row in dataTable.Rows)
             {
+                if (row.RowState == DataRowState.Deleted) continue;
+                string elemId = row["Id"].ToString();
                 string elemAuthor = row["Author"].ToString();
                 string elemTitle = row["Title"].ToString();
                 string elemState = row["State"].ToString();
                 var ticket = new Ticket(elemAuthor, "", elemTitle, "", DateTime.Now);
                 ticket.State = elemState;
+                ticket.Id = elemId;
                 ticketsList.Add(ticket);
             }
             return ticketsList;
