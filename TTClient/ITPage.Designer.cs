@@ -33,6 +33,9 @@
             this.SendButton = new System.Windows.Forms.Button();
             this.ReceiveButton = new System.Windows.Forms.Button();
             this.receiveTB = new System.Windows.Forms.TextBox();
+            this.usersCB = new System.Windows.Forms.ComboBox();
+            this.ticketsCB = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -86,11 +89,40 @@
             this.receiveTB.Size = new System.Drawing.Size(391, 31);
             this.receiveTB.TabIndex = 6;
             // 
+            // usersCB
+            // 
+            this.usersCB.FormattingEnabled = true;
+            this.usersCB.Location = new System.Drawing.Point(94, 445);
+            this.usersCB.Name = "usersCB";
+            this.usersCB.Size = new System.Drawing.Size(230, 33);
+            this.usersCB.TabIndex = 7;
+            // 
+            // ticketsCB
+            // 
+            this.ticketsCB.FormattingEnabled = true;
+            this.ticketsCB.Location = new System.Drawing.Point(91, 512);
+            this.ticketsCB.Name = "ticketsCB";
+            this.ticketsCB.Size = new System.Drawing.Size(233, 33);
+            this.ticketsCB.TabIndex = 8;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(132, 588);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(147, 49);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Submit";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.onSubmit);
+            // 
             // ITPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1404, 738);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.ticketsCB);
+            this.Controls.Add(this.usersCB);
             this.Controls.Add(this.receiveTB);
             this.Controls.Add(this.ReceiveButton);
             this.Controls.Add(this.SendButton);
@@ -112,5 +144,8 @@
         private System.Windows.Forms.Button SendButton;
         private System.Windows.Forms.Button ReceiveButton;
         private System.Windows.Forms.TextBox receiveTB;
+        private System.Windows.Forms.ComboBox usersCB;
+        private System.Windows.Forms.ComboBox ticketsCB;
+        private System.Windows.Forms.Button button1;
     }
 }

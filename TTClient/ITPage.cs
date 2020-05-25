@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Messaging;
 using System.Windows.Forms;
@@ -12,6 +14,7 @@ namespace TTClient
         public MessageQueue qeue;
         private System.Messaging.Message[] messages;
         string user;
+        ArrayList ticketList;
         public ITPage(string user, string id)
         {
             InitializeComponent();
@@ -22,6 +25,12 @@ namespace TTClient
             // get tickets from a user and display them
             DataTable tickets = proxy.GetTicketsAssign(id);
             dataGridView1.DataSource = tickets;
+            ticketList = Ticket.getTickets(tickets);
+            ticketList = ticketList;
+
+            usersDropDown();
+            ticketsDropDown();
+
 
             if (MessageQueue.Exists(qeuePath.Trim()))
             {
@@ -35,6 +44,41 @@ namespace TTClient
                 CreateQeue();
             }
 
+        }
+
+        public void ticketsDropDown()
+        {
+            var titleList = new List<string>();
+            foreach (Ticket elem in ticketList)
+            {
+                if (elem.State == "unassigned")
+                {
+                    titleList.Add(elem.AuthorName);
+                }
+            }
+            //Setup data binding
+            ticketsCB.DataSource = titleList;
+            ticketsCB.DisplayMember = "Title";
+        }
+
+        public void usersDropDown()
+        {
+            DataTable userT = proxy.GetUsers();
+            var namesList = new List<String>();
+            DataColumn dataColumn = userT.Columns["Name"];
+            DataColumn idColumn = userT.Columns["Id"];
+
+            foreach (DataRow row in userT.Rows)
+            {
+                String elemName = row.Field<string>(dataColumn);
+                int elemId = row.Field<int>(idColumn);
+
+                namesList.Add(elemName);
+            }
+
+            //Setup data binding
+            usersCB.DataSource = namesList;
+            usersCB.DisplayMember = "Name";
         }
 
         public void CreateQeue()
@@ -62,6 +106,11 @@ namespace TTClient
         private void sendMsg(object sender, EventArgs e)
         {
             qeue.Send((string)sendTB.Text.Trim());
+        }
+
+        private void onSubmit(object sender, EventArgs e)
+        {
+
         }
     }
 }
