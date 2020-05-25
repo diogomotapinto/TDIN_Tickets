@@ -52,6 +52,7 @@
     <Compile Include="Ticket.cs" />
     <Compile Include="TTProxy.cs" />
     <Compile Include="TTService.cs" />
+    <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Web.config" />

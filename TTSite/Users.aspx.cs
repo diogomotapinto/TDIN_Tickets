@@ -14,6 +14,6 @@ public partial class Users : System.Web.UI.Page
     public void onclick(object sender, EventArgs e)
     {
         string username = user.Text;
-        proxy.AddUser(username);
+        proxy.AddUser(username, "employee");
     }
 }

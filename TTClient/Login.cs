@@ -12,8 +12,7 @@ namespace TTClient
     {
         TTProxy proxy;
         DataTable dataTable;
-        public string user;
-        Dictionary<string, string> dic;
+        ArrayList users = new ArrayList();
         public Login()
         {
 
@@ -23,16 +22,22 @@ namespace TTClient
             proxy = new TTProxy();
             dataTable = proxy.GetUsers();
             var namesList = new List<String>();
-            dic = new Dictionary<string, string>();
             DataColumn dataColumn = dataTable.Columns["Name"];
             DataColumn idColumn = dataTable.Columns["Id"];
+            DataColumn roleColumn = dataTable.Columns["Role"];
 
             foreach (DataRow row in dataTable.Rows)
             {
                 String elemName = row.Field<string>(dataColumn);
                 int elemId = row.Field<int>(idColumn);
-                dic.Add(elemName, elemId.ToString());
-                namesList.Add(elemName);
+                string role = row.Field<string>(roleColumn);
+
+                users.Add(new TTService.User(elemId, elemName, role));
+            }
+
+            foreach(User user in users)
+            {
+                namesList.Add(user.Username);
             }
 
             //Setup data binding
@@ -43,12 +48,21 @@ namespace TTClient
 
         private void onClick(object sender, EventArgs e)
         {
-            user = comboBox1.Text;
-            ITPage iTPage = new ITPage(user, dic[user]);
-            iTPage.Tag = this;
-            iTPage.Show(this);
-            Hide();
+            User selected = (TTService.User)users[comboBox1.SelectedIndex];
+            
+            Form toShow = selected.Role.Equals("external_solver") ? (Form)new ExternalSolver(selected) : new ITPage(selected.Username, selected.Id.ToString());
 
+            toShow.Tag = this;
+            toShow.Show(this);
+            Hide();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Register page = new Register();
+            page.Tag = this;
+            page.Show(this);
+            Hide();
         }
     }
 

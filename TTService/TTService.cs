@@ -47,30 +47,36 @@ namespace TTService
             return id;
         }
 
-        public void AddUser(string username)
+        public Boolean AddUser(string username, string role)
         {
-
             int id = 0;
             using (SqlConnection c = new SqlConnection(database))
             {
                 try
                 {
                     c.Open();
-                    string sql = "insert into Employees(Name) values (@a1)"; // injection protection
+                    string sql = "insert into Employees(Name, Role) values (@a1, @r1)"; // injection protection
                     SqlCommand cmd = new SqlCommand(sql, c);                                                       // injection protection
                     cmd.Parameters.AddWithValue("@a1", username);
+                    cmd.Parameters.AddWithValue("@r1", role);
                     cmd.ExecuteNonQuery();
                     cmd.CommandText = "select max(Id) from Employees";
                     id = (int)cmd.ExecuteScalar();
                 }
-                catch (SqlException)
+                catch (SqlException e)
                 {
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine("falha ao adicionar");
+                    return false;
                 }
                 finally
                 {
                     c.Close();
+                    
                 }
             }
+
+            return true;
 
         }
 
@@ -134,7 +140,7 @@ namespace TTService
                 try
                 {
                     c.Open();
-                    string sql = "select Id, Name from Employees";
+                    string sql = "select Id, Name, Role from Employees";
                     SqlCommand cmd = new SqlCommand(sql, c);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     adapter.Fill(result);
