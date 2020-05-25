@@ -120,18 +120,6 @@ namespace TTClient
 
         }
 
-        private void receiveMsg(object sender, EventArgs e)
-        {
-            System.Messaging.Message msq = qeue.Receive(new TimeSpan(0, 0, 2));
-            msq.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
-            receiveTB.Text = (string)msq.Body;
-        }
-
-        private void sendMsg(object sender, EventArgs e)
-        {
-            qeue.Send((string)sendTB.Text.Trim());
-        }
-
         private void onSubmit(object sender, EventArgs e)
         {
             // buscar id do utilizador
