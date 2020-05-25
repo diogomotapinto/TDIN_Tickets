@@ -149,5 +149,31 @@ namespace TTService
             }
             return result;
         }
+
+        public void updateAssigned(string userId, string ticketId)
+        {
+            DataTable result = new DataTable("TTickets");
+
+            using (SqlConnection c = new SqlConnection(database))
+            {
+                try
+                {
+                    c.Open();
+                    string sql = "Update TTickets SET State=@userId Where Id=@ticketId";
+
+                    SqlCommand cmd = new SqlCommand(sql, c);
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                    cmd.Parameters.AddWithValue("@ticketId", ticketId);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                }
+                finally
+                {
+                    c.Close();
+                }
+            }
+        }
     }
 }

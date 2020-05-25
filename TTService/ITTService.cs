@@ -27,6 +27,9 @@ namespace TTService
         [OperationContract]
         void AddUser(string username);
 
+        [WebInvoke(Method = "POST", UriTemplate = "/tickets/update/{userId}/{ticketId}", BodyStyle = WebMessageBodyStyle.WrappedRequest, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        [OperationContract]
+        void updateAssigned(string userId, string ticketId);
 
     }
 }

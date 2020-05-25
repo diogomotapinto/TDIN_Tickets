@@ -31,5 +31,10 @@ namespace TTService
         {
             return Channel.GetTicketsAssign(assign);
         }
+
+        public void updateAssigned(string userId, string ticketId)
+        {
+            Channel.updateAssigned(userId, ticketId);
+        }
     }
 }
