@@ -49,6 +49,12 @@ namespace TTClient
 
         }
 
+        public void refreshDataTB(string id)
+        {
+            DataTable tickets = proxy.GetTicketsAssign(id);
+            dataGridView1.DataSource = tickets;
+        }
+
         public void ticketsDropDown()
         {
             var titleList = new List<string>();
@@ -124,6 +130,7 @@ namespace TTClient
                 }
             }
             proxy.updateAssigned(userId, tic.Id);
+            refreshDataTB(userId);
         }
     }
 }
