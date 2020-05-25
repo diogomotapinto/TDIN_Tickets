@@ -72,7 +72,7 @@ namespace TTService
                 finally
                 {
                     c.Close();
-                    
+
                 }
             }
 
@@ -89,7 +89,7 @@ namespace TTService
                 try
                 {
                     c.Open();
-                    string sql = "select Id, Problem, Title, State, Date,Status, Answer from TTickets where Author=@a1";
+                    string sql = "select Id, Problem, Title, State, Date, Status, Answer from TTickets where Author=@a1";
                     SqlCommand cmd = new SqlCommand(sql, c);
                     cmd.Parameters.AddWithValue("@a1", author);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -108,7 +108,7 @@ namespace TTService
 
         public DataTable GetTicketsAssign(string assign)
         {
-
+            Console.WriteLine(assign);
             DataTable result = new DataTable("TTickets");
             using (SqlConnection c = new SqlConnection(database))
             {
@@ -117,6 +117,8 @@ namespace TTService
                     c.Open();
                     string sql = "select * from TTickets";
                     SqlCommand cmd = new SqlCommand(sql, c);
+                    cmd.Parameters.AddWithValue("@a1", assign);
+                    cmd.Parameters.AddWithValue("@a2", "unassigned");
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     adapter.Fill(result);
                 }

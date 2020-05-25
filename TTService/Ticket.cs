@@ -44,6 +44,7 @@ namespace TTService
 
             foreach (DataRow row in dataTable.Rows)
             {
+                if (row.RowState == DataRowState.Deleted) continue;
                 string elemId = row["Id"].ToString();
                 string elemAuthor = row["Author"].ToString();
                 string elemTitle = row["Title"].ToString();

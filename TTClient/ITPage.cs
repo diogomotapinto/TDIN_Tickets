@@ -14,19 +14,21 @@ namespace TTClient
         public MessageQueue qeue;
         private System.Messaging.Message[] messages;
         string user;
+        string loggedid;
         DataTable userT;
         Dictionary<string, string> userDict;
         ArrayList ticketList;
         public ITPage(string user, string id)
         {
             InitializeComponent();
+            loggedid = id;
             proxy = new TTProxy();
             qeue = new MessageQueue();
             userT = proxy.GetUsers();
             qeue.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
             this.user = user;
             // get tickets from a user and display them
-            DataTable tickets = proxy.GetTicketsAssign(id);
+            DataTable tickets = filterData();
             dataGridView1.DataSource = tickets;
             ticketList = Ticket.getTickets(tickets);
             userDict = new Dictionary<string, string>();
@@ -49,9 +51,23 @@ namespace TTClient
 
         }
 
+        public DataTable filterData()
+        {
+            DataTable tickets = proxy.GetTicketsAssign(loggedid);
+            foreach (DataRow row in tickets.Rows)
+            {
+                string elemState = row["State"].ToString();
+                if (!(elemState == "unassigned" || elemState == user))
+                {
+                    row.Delete();
+                }
+            }
+            return tickets;
+        }
+
         public void refreshDataTB(string id)
         {
-            DataTable tickets = proxy.GetTicketsAssign(id);
+            DataTable tickets = filterData();
             dataGridView1.DataSource = tickets;
         }
 
@@ -120,6 +136,7 @@ namespace TTClient
         {
             // buscar id do utilizador
             string userId = userDict[usersCB.Text];
+            string userName = usersCB.Text;
             // buscar id to ticket 
             Ticket tic = null;
             foreach (Ticket elem in ticketList)
@@ -129,8 +146,8 @@ namespace TTClient
                     tic = elem;
                 }
             }
-            proxy.updateAssigned(userId, tic.Id);
-            refreshDataTB(userId);
+            proxy.updateAssigned(userName, tic.Id);
+            refreshDataTB(loggedid);
         }
     }
 }
