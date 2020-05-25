@@ -108,7 +108,26 @@ namespace TTService
 
         public void AddWating(string ticketId)
         {
-            return;
+            DataTable result = new DataTable("TTickets");
+
+            using (SqlConnection c = new SqlConnection(database))
+            {
+                try
+                {
+                    c.Open();
+                    string sql = "Update TTickets SET State='waiting for answers' Where Id=@ticketId";
+                    SqlCommand cmd = new SqlCommand(sql, c);
+                    cmd.Parameters.AddWithValue("@ticketId", ticketId);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                }
+                finally
+                {
+                    c.Close();
+                }
+            }
         }
 
         public DataTable GetTickets(string author)

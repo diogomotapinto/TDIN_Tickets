@@ -44,7 +44,7 @@ namespace TTService
 
         public void AddWating(string ticketId)
         {
-            return;
+            Channel.AddWating(ticketId);
         }
     }
 }

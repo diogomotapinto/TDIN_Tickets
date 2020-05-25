@@ -59,7 +59,7 @@ namespace TTClient
             foreach (DataRow row in tickets.Rows)
             {
                 string elemState = row["State"].ToString();
-                if (!(elemState == "unassigned" || elemState == user || elemState == "solved"))
+                if (!(elemState == "unassigned" || elemState == user || elemState == "solved" || elemState == "waiting for answers"))
                 {
                     row.Delete();
                 }
