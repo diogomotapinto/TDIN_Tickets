@@ -5,6 +5,7 @@ using System.Data;
 using System.Messaging;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using System.Windows.Threading;
 using TTService;
 namespace TTClient
 {
@@ -12,7 +13,9 @@ namespace TTClient
     {
         TTProxy proxy;
         private string qeuePath = @".\private$\ticketsqeue";
+        private string notificationqeuePath = @".\private$\notification";
         public MessageQueue qeue;
+        public MessageQueue notificationQeue;
         private System.Messaging.Message[] messages;
         string user;
         string loggedid;
@@ -27,7 +30,9 @@ namespace TTClient
             selectCell = null;
             proxy = new TTProxy();
             qeue = new MessageQueue();
+            notificationQeue = new MessageQueue();
             qeue.Formatter = new XmlMessageFormatter(new Type[] { typeof(Ticket) });
+            notificationQeue.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
             userT = proxy.GetUsers();
             this.user = user;
             // get tickets from a user and display them
@@ -40,18 +45,26 @@ namespace TTClient
             ticketsDropDown();
 
 
-            if (MessageQueue.Exists(qeuePath.Trim()))
+            initializeQeue(qeue, qeuePath);
+            initializeQeue(notificationQeue, notificationqeuePath);
+
+            notificationQeue.ReceiveCompleted += notificationReceiver;
+            notificationQeue.BeginReceive();
+        }
+
+        private void initializeQeue(MessageQueue m, string path)
+        {
+            if (MessageQueue.Exists(path))
             {
-                Console.WriteLine("MessageQeue Exists");
-                qeue.Path = qeuePath.Trim();
+                Console.WriteLine(path + " MessageQeue Exists");
+                m.Path = path;
 
             }
             else
             {
                 Console.WriteLine("Message Qeue Doesn't Exists");
-                CreateQeue();
+                CreateQeue(m, path);
             }
-
         }
 
         public DataTable filterData()
@@ -108,26 +121,33 @@ namespace TTClient
             usersCB.DisplayMember = "Name";
         }
 
-        public void CreateQeue()
+        public void CreateQeue(MessageQueue m, string path)
         {
             try
             {
-                MessageQueue.Create(qeuePath.Trim());
-                qeue.Path = qeuePath.Trim();
-                Console.WriteLine("Message Qeue Created");
+                m = MessageQueue.Create(path);
+                Console.WriteLine(path + " Message Qeue Created");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine(e.Message);
             }
-
         }
 
-        private void receiveMsg(object sender, EventArgs e)
+        [STAThread]
+        private void notificationReceiver(object src, ReceiveCompletedEventArgs rcea)
         {
-            System.Messaging.Message msq = qeue.Receive(new TimeSpan(0, 0, 2));
-            msq.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
-            /*receiveTB.Text = (string)msq.Body;*/
+            System.Messaging.Message msg = notificationQeue.EndReceive(rcea.AsyncResult);
+
+            string received = (string)msg.Body;
+
+            this.Invoke(() => { this.label1.Text = "Departamente respondeu ao ticket " + received; });
+
+           
+
+            notificationQeue.BeginReceive();
+
+            refreshDataTB(loggedid);
         }
 
         private bool sendMessageToExternalSolver(Ticket t)

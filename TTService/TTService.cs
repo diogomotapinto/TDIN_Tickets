@@ -236,5 +236,34 @@ namespace TTService
                 }
             }
         }
+
+        public bool addSecondaryAnswer(string ticketId, string answer)
+        {
+            DataTable result = new DataTable("TTickets");
+
+            using (SqlConnection c = new SqlConnection(database))
+            {
+                try
+                {
+                    c.Open();
+                    string sql = "Update TTickets SET SecundaryQuestionAnswer=@answer Where Id=@ticketId";
+                    SqlCommand cmd = new SqlCommand(sql, c);
+                    cmd.Parameters.AddWithValue("@ticketId", ticketId);
+                    cmd.Parameters.AddWithValue("@answer", answer);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+                finally
+                {
+                    c.Close();
+                }
+            }
+
+            return true;
+        }
     }
 }

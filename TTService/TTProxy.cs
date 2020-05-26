@@ -46,5 +46,10 @@ namespace TTService
         {
             Channel.AddWating(ticketId, questionTitle, questionDescription);
         }
+
+        public bool addSecondaryAnswer(string ticketId, string answer)
+        {
+            return Channel.addSecondaryAnswer(ticketId, answer);
+        }
     }
 }

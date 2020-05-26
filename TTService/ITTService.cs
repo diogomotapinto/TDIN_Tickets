@@ -40,5 +40,8 @@ namespace TTService
         [OperationContract]
         void AddWating(string ticketId, string questionTitle, string questionDescription);
 
+        [WebInvoke(Method = "POST", UriTemplate = "/tickets/answer/secondary/{ticketId}/{answer}", BodyStyle = WebMessageBodyStyle.WrappedRequest, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        [OperationContract]
+        bool addSecondaryAnswer(string ticketId, string answer);
     }
 }
