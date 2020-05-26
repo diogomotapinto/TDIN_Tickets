@@ -10,12 +10,13 @@ using System.Windows.Forms;
 using System.Messaging;
 using TTService;
 using System.Collections;
+using System.ServiceModel.Channels;
 
 namespace TTClient
 {
     public partial class ExternalSolver : Form
     {
-        private string qeuePath = @".\private$\myfirstq";
+        private string qeuePath = @".\private$\ticketsqeue";
         MessageQueue queue;
         private System.Messaging.Message[] messages;
         private int selectedTicketIndex = 0;
@@ -42,6 +43,8 @@ namespace TTClient
                     textBox1.Text = "Ja existia";
                     Console.WriteLine("já existia");
                 }
+
+                queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(Ticket) });
             }
             catch (MessageQueueException ex)
             {
@@ -56,9 +59,9 @@ namespace TTClient
 
         private void loadMessagesToList()
         {
-            availableTickets.Add(new Ticket("Duarte", "dnc.1@gmail.com", "Não consigo ter VPN", "Já tentei de tudo mas esta merda nao da.", new DateTime(2020, 2, 11)));
-            availableTickets.Add(new Ticket("d", "b", "titlo2", "hello", new DateTime()));
-            availableTickets.Add(new Ticket("e", "b", "titlo3", "hello", new DateTime()));
+            listBox1.Items.Clear();
+
+
             int index = 0;
             foreach (Ticket t in availableTickets)
             {
@@ -67,25 +70,36 @@ namespace TTClient
             }
         }
 
+        private void QueueReceiver(object src, ReceiveCompletedEventArgs rcea)
+        {
+            System.Messaging.Message msg = queue.EndReceive(rcea.AsyncResult);
+            
+            Ticket received = (Ticket)msg.Body;
+
+            availableTickets.Add(received);
+
+            queue.BeginReceive();
+
+            loadMessagesToList();
+        }
 
         private void ExternalSolver_Load(object sender, EventArgs e)
         {
             initilizeQeue();
 
-            queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
-
             messages = queue.GetAllMessages();
 
             foreach (System.Messaging.Message msq in messages)
             {
-                Console.WriteLine("--------------------\r\n");
-                Console.WriteLine("Body = " + (string)msq.Body);
-                Console.WriteLine("\r\n");
-                Console.WriteLine("Id = " + msq.Id);
-                Console.WriteLine("\r\n--------------------\r\n");
+                availableTickets.Add(msq.Body);
+                // Console.WriteLine("Id = " + msq.Id);
             }
 
             loadMessagesToList();
+
+            queue.ReceiveCompleted += QueueReceiver;
+            queue.BeginReceive();
+
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)

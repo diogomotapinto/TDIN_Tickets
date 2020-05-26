@@ -24,8 +24,8 @@ namespace TTClient
             loggedid = id;
             proxy = new TTProxy();
             qeue = new MessageQueue();
+            qeue.Formatter = new XmlMessageFormatter(new Type[] { typeof(Ticket) });
             userT = proxy.GetUsers();
-            qeue.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
             this.user = user;
             // get tickets from a user and display them
             DataTable tickets = filterData();
@@ -116,6 +116,61 @@ namespace TTClient
             catch (Exception e)
             {
                 Console.WriteLine(e);
+            }
+
+        }
+
+        private void receiveMsg(object sender, EventArgs e)
+        {
+            System.Messaging.Message msq = qeue.Receive(new TimeSpan(0, 0, 2));
+            msq.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
+            /*receiveTB.Text = (string)msq.Body;*/
+        }
+
+        private bool sendMessageToExternalSolver(Ticket t)
+        {
+            try
+            {
+                this.qeue.Send(t);
+            }
+            catch (MessageQueueException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+            catch (Exception ex1)
+            {
+                Console.WriteLine(ex1.Message);
+                return false;
+            }
+            return true;
+        }
+
+        private void sendMsg(object sender, EventArgs e)
+        {
+            /*qeue.Send((string)sendTB.Text.Trim());*/
+            if (dataGridView1.SelectedRows.Count == 0)
+            {
+                return;
+            }
+
+            string id = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
+
+            string secundaryTitle = textBox1.Text;
+
+            string secundaryDescription = textBox2.Text;
+
+            DateTime moment = DateTime.Now;
+
+            Ticket toSend = new Ticket(user, "example@gmail.com", secundaryTitle, secundaryDescription, moment);
+            
+            if(sendMessageToExternalSolver(toSend))
+            {
+                Console.WriteLine("Ticket enviado");
+            }
+            else
+            {
+                Console.WriteLine("Não enviado");
             }
 
         }
