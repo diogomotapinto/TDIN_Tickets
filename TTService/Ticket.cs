@@ -17,12 +17,13 @@ namespace TTService
         private string description;
         private DateTime creation;
         private string state;
+        private string id;
 
         public Ticket()
         {
 
         }
-        private string id;
+        
         public Ticket(string name, string email, string title, string desc, DateTime creation)
         {
             this.AuthorName = name;

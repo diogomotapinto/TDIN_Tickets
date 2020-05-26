@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Messaging;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using TTService;
 namespace TTClient
 {
@@ -153,6 +154,7 @@ namespace TTClient
             /*qeue.Send((string)sendTB.Text.Trim());*/
             if (dataGridView1.SelectedRows.Count == 0)
             {
+                this.statusLabel.Text = "Tem de selecionaruma linha";
                 return;
             }
 
@@ -168,11 +170,13 @@ namespace TTClient
             
             if(sendMessageToExternalSolver(toSend))
             {
-                Console.WriteLine("Ticket enviado");
+                this.statusLabel.Text = "Ticket enviado";
+                proxy.AddWating(id);
+                refreshDataTB(loggedid);
             }
             else
             {
-                Console.WriteLine("Não enviado");
+                this.statusLabel.Text = "Falha ao enviar ticket";
             }
 
         }
