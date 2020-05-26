@@ -34,14 +34,14 @@ namespace TTClient
                 if (!MessageQueue.Exists(qeuePath.Trim()))
                 {
                     queue = new MessageQueue(qeuePath.Trim());
-                    textBox1.Text = "Não existia. criada";
                     Console.WriteLine("Não existia. criada");
+
+                    this.label1.Text = "Fila de mensagens criada.";
                 }
                 else
                 {
                     queue.Path = qeuePath;
-                    textBox1.Text = "Ja existia";
-                    Console.WriteLine("já existia");
+                    this.label1.Text = "Fila de mensagens já existente criada.";
                 }
 
                 queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(Ticket) });
@@ -77,6 +77,8 @@ namespace TTClient
             Ticket received = (Ticket)msg.Body;
 
             availableTickets.Add(received);
+
+            this.label1.Text = "Novo ticket: " + received.Title;
 
             queue.BeginReceive();
 

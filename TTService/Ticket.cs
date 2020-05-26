@@ -24,13 +24,14 @@ namespace TTService
 
         }
         
-        public Ticket(string name, string email, string title, string desc, DateTime creation)
+        public Ticket(string name, string email, string title, string desc, DateTime creation, string id)
         {
             this.AuthorName = name;
             this.AuthorEmail = email;
             this.Title = title;
             this.Description = desc;
             this.Creation = creation;
+            this.id = id;
         }
 
         public string AuthorName { get => authorName; set => authorName = value; }
@@ -55,7 +56,7 @@ namespace TTService
                 string elemAuthor = row["Author"].ToString();
                 string elemTitle = row["Title"].ToString();
                 string elemState = row["State"].ToString();
-                var ticket = new Ticket(elemAuthor, "", elemTitle, "", DateTime.Now);
+                var ticket = new Ticket(elemAuthor, "", elemTitle, "", DateTime.Now, elemId);
                 ticket.State = elemState;
                 ticket.Id = elemId;
                 ticketsList.Add(ticket);

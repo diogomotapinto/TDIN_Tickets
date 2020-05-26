@@ -106,7 +106,7 @@ namespace TTService
 
         }
 
-        public void AddWating(string ticketId)
+        public void AddWating(string ticketId, string questionTitle, string questionDescription)
         {
             DataTable result = new DataTable("TTickets");
 
@@ -115,13 +115,16 @@ namespace TTService
                 try
                 {
                     c.Open();
-                    string sql = "Update TTickets SET State='waiting for answers' Where Id=@ticketId";
+                    string sql = "Update TTickets SET State='waiting for answers', SecundaryQuestionTitle=@questionTitle, SecundaryQuestionDesciption=@questionDesc Where Id=@ticketId";
                     SqlCommand cmd = new SqlCommand(sql, c);
                     cmd.Parameters.AddWithValue("@ticketId", ticketId);
+                    cmd.Parameters.AddWithValue("@questionTitle", questionTitle);
+                    cmd.Parameters.AddWithValue("@questionDesc", questionDescription);
                     cmd.ExecuteNonQuery();
                 }
                 catch (SqlException ex)
                 {
+                    Console.WriteLine(ex.Message);
                 }
                 finally
                 {

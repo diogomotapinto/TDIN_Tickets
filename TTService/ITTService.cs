@@ -36,9 +36,9 @@ namespace TTService
         [OperationContract]
         void AddAnswer(string answer, string ticketId);
 
-        [WebInvoke(Method = "POST", UriTemplate = "/tickets/answer/waiting/{ticketId}", BodyStyle = WebMessageBodyStyle.WrappedRequest, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        [WebInvoke(Method = "POST", UriTemplate = "/tickets/answer/waiting/{ticketId}/{questionTitle}/{questionDescription}", BodyStyle = WebMessageBodyStyle.WrappedRequest, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         [OperationContract]
-        void AddWating(string ticketId);
+        void AddWating(string ticketId, string questionTitle, string questionDescription);
 
     }
 }

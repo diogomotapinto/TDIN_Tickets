@@ -166,12 +166,12 @@ namespace TTClient
 
             DateTime moment = DateTime.Now;
 
-            Ticket toSend = new Ticket(user, "example@gmail.com", secundaryTitle, secundaryDescription, moment);
+            Ticket toSend = new Ticket(user, "example@gmail.com", secundaryTitle, secundaryDescription, moment, id);
             
             if(sendMessageToExternalSolver(toSend))
             {
                 this.statusLabel.Text = "Ticket enviado";
-                proxy.AddWating(id);
+                proxy.AddWating(id, secundaryTitle, secundaryDescription);
                 refreshDataTB(loggedid);
             }
             else
