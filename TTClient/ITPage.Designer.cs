@@ -43,6 +43,7 @@
             this.labelID = new System.Windows.Forms.Label();
             this.labelDesc = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.statusLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,15 +51,15 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(219, 12);
+            this.dataGridView1.Location = new System.Drawing.Point(219, 52);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 82;
-            this.dataGridView1.Size = new System.Drawing.Size(664, 605);
+            this.dataGridView1.Size = new System.Drawing.Size(664, 565);
             this.dataGridView1.TabIndex = 2;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.SelectCell);
             // 
@@ -121,7 +122,6 @@
             this.label2.Size = new System.Drawing.Size(78, 13);
             this.label2.TabIndex = 11;
             this.label2.Text = "Assign a solver";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // answerBox
             // 
@@ -151,7 +151,6 @@
             this.selectLabel.Size = new System.Drawing.Size(75, 13);
             this.selectLabel.TabIndex = 14;
             this.selectLabel.Text = "Select a ticket";
-            this.selectLabel.Click += new System.EventHandler(this.selectLabel_Click);
             // 
             // answerButton
             // 
@@ -198,6 +197,15 @@
             this.textBox2.Size = new System.Drawing.Size(181, 76);
             this.textBox2.TabIndex = 13;
             // 
+            // statusLabel
+            // 
+            this.statusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.statusLabel.Location = new System.Drawing.Point(219, 20);
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(664, 23);
+            this.statusLabel.TabIndex = 16;
+            this.statusLabel.Text = "";
+            // 
             // ITPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -218,6 +226,7 @@
             this.Controls.Add(this.usersCB);
             this.Controls.Add(this.SendButton);
             this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.statusLabel);
             this.Name = "ITPage";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -243,5 +252,6 @@
         private System.Windows.Forms.Label labelID;
         private System.Windows.Forms.Label labelDesc;
         private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label statusLabel;
     }
 }

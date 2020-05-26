@@ -42,9 +42,14 @@ namespace TTService
             Channel.AddAnswer(answer, ticketId);
         }
 
-        public void AddWating(string ticketId)
+        public void AddWating(string ticketId, string questionTitle, string questionDescription)
         {
-            Channel.AddWating(ticketId);
+            Channel.AddWating(ticketId, questionTitle, questionDescription);
+        }
+
+        public bool addSecondaryAnswer(string ticketId, string answer)
+        {
+            return Channel.addSecondaryAnswer(ticketId, answer);
         }
     }
 }
