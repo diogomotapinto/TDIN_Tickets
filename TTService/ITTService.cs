@@ -10,7 +10,7 @@ namespace TTService
     {
         [WebInvoke(Method = "POST", UriTemplate = "/tickets", BodyStyle = WebMessageBodyStyle.WrappedRequest, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         [OperationContract]
-        int AddTicket(string author, string problem, string title);
+        int AddTicket(string author, string description, string title);
 
         [WebGet(UriTemplate = "/tickets/{author}", ResponseFormat = WebMessageFormat.Json)]
         [OperationContract]

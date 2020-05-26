@@ -41,7 +41,7 @@ namespace TTService
             }
         }
 
-        public int AddTicket(string author, string problem, string title)
+        public int AddTicket(string author, string description, string title)
         {
             int id = 0;
 
@@ -50,13 +50,13 @@ namespace TTService
                 try
                 {
                     c.Open();
-                    string sql = "insert into TTickets(Author, Problem, Title, Date, Answer, Status) values (@a1, @p1, @t1, @d1,'', 1)"; // injection protection
+                    string sql = "insert into TTickets(Author, Description, Title, Date, Answer) values (@a1, @p1, @t1, @d1,'')"; // injection protection
                     SqlCommand cmd = new SqlCommand(sql, c);                                                       // injection protection
                     DateTime time = DateTime.Now;
                     string format = "yyyy-MM-dd HH:mm:ss";
                     cmd.Parameters.AddWithValue("@d1", time.ToString(format));
                     cmd.Parameters.AddWithValue("@a1", author);                                                    // injection protection
-                    cmd.Parameters.AddWithValue("@p1", problem);                                                   // injection protection
+                    cmd.Parameters.AddWithValue("@p1", description);                                                   // injection protection
                     cmd.Parameters.AddWithValue("@t1", title);
                     cmd.ExecuteNonQuery();
                     cmd.CommandText = "select max(Id) from TTickets";

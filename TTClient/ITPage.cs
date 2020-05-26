@@ -141,9 +141,9 @@ namespace TTClient
 
             string received = (string)msg.Body;
 
-            this.Invoke(() => { this.label1.Text = "Departamente respondeu ao ticket " + received; });
+            /*  this.Invoke(() => { this.label1.Text = "Departamente respondeu ao ticket " + received; });*/
 
-           
+
 
             notificationQeue.BeginReceive();
 
@@ -187,8 +187,8 @@ namespace TTClient
             DateTime moment = DateTime.Now;
 
             Ticket toSend = new Ticket(user, "example@gmail.com", secundaryTitle, secundaryDescription, moment, id);
-            
-            if(sendMessageToExternalSolver(toSend))
+
+            if (sendMessageToExternalSolver(toSend))
             {
                 this.statusLabel.Text = "Ticket enviado";
                 proxy.AddWating(id, secundaryTitle, secundaryDescription);
