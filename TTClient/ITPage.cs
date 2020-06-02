@@ -3,53 +3,39 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Messaging;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Windows.Threading;
 using TTService;
+using System.Timers;
+
 namespace TTClient
 {
     public partial class ITPage : Form
     {
+        User currentUser;
         TTProxy proxy;
         private string qeuePath = @".\private$\ticketsqeue";
         private string notificationqeuePath = @".\private$\notification";
         public MessageQueue qeue;
         public MessageQueue notificationQeue;
         private System.Messaging.Message[] messages;
-        string user;
-        string loggedid;
-        DataTable userT;
-        string selectCell;
-        Dictionary<string, string> userDict;
         ArrayList ticketList;
-        public ITPage(string user, string id)
+        ArrayList userList;
+        Ticket selectedTicket;
+        User selectedUser;
+        
+        public ITPage(User u)
         {
             InitializeComponent();
-            loggedid = id;
-            selectCell = null;
+            currentUser = u;
             proxy = new TTProxy();
-            qeue = new MessageQueue();
-            notificationQeue = new MessageQueue();
-            qeue.Formatter = new XmlMessageFormatter(new Type[] { typeof(Ticket) });
-            notificationQeue.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
-            userT = proxy.GetUsers();
-            this.user = user;
+
+            userList = new ArrayList();
+
             // get tickets from a user and display them
-            DataTable tickets = filterData();
-            dataGridView1.DataSource = tickets;
-            ticketList = Ticket.getTickets(tickets);
-            userDict = new Dictionary<string, string>();
-
-            usersDropDown();
-            ticketsDropDown();
-
-
-            initializeQeue(qeue, qeuePath);
-            initializeQeue(notificationQeue, notificationqeuePath);
-
-            notificationQeue.ReceiveCompleted += notificationReceiver;
-            notificationQeue.BeginReceive();
         }
 
         private void initializeQeue(MessageQueue m, string path)
@@ -69,11 +55,11 @@ namespace TTClient
 
         public DataTable filterData()
         {
-            DataTable tickets = proxy.GetTicketsAssign(loggedid);
+            DataTable tickets = proxy.GetTicketsAssign(currentUser.Id.ToString());
             foreach (DataRow row in tickets.Rows)
             {
                 string elemState = row["State"].ToString();
-                if (!(elemState == "unassigned" || elemState == user || elemState == "solved" || elemState == "waiting for answers"))
+                if (!(elemState == "unassigned" || elemState == currentUser.Username || elemState == "solved" || elemState == "waiting for answers"))
                 {
                     row.Delete();
                 }
@@ -81,44 +67,32 @@ namespace TTClient
             return tickets;
         }
 
-        public void refreshDataTB(string id)
+        public void loadUsers()
         {
-            DataTable tickets = filterData();
-            dataGridView1.DataSource = tickets;
-        }
+            DataTable dataTable = proxy.GetUsers();
 
-        public void ticketsDropDown()
-        {
-            var titleList = new List<string>();
-            foreach (Ticket elem in ticketList)
+            DataColumn dataColumn = dataTable.Columns["Name"];
+            DataColumn idColumn = dataTable.Columns["Id"];
+            DataColumn roleColumn = dataTable.Columns["Role"];
+
+            foreach (DataRow row in dataTable.Rows)
             {
-                if (elem.State == "unassigned")
-                {
-                    titleList.Add(elem.Id);
-                }
+                String elemName = row.Field<string>(dataColumn);
+                int elemId = row.Field<int>(idColumn);
+                string role = row.Field<string>(roleColumn);
+
+                userList.Add(new TTService.User(elemId, elemName, role));
             }
-            //Setup data binding
-            ticketsCB.DataSource = titleList;
-            ticketsCB.DisplayMember = "Title";
         }
 
         public void usersDropDown()
         {
-            var namesList = new List<String>();
-            DataColumn dataColumn = userT.Columns["Name"];
-            DataColumn idColumn = userT.Columns["Id"];
-
-            foreach (DataRow row in userT.Rows)
+            int index = 0;
+            foreach (User u in userList)
             {
-                String elemName = row.Field<string>(dataColumn);
-                int elemId = row.Field<int>(idColumn);
-                userDict.Add(elemName, elemId.ToString());
-                namesList.Add(elemName);
+                usersCB.Items.Insert(index, u.Username);
+                index++;
             }
-
-            //Setup data binding
-            usersCB.DataSource = namesList;
-            usersCB.DisplayMember = "Name";
         }
 
         public void CreateQeue(MessageQueue m, string path)
@@ -134,20 +108,21 @@ namespace TTClient
             }
         }
 
-        [STAThread]
         private void notificationReceiver(object src, ReceiveCompletedEventArgs rcea)
         {
-            System.Messaging.Message msg = notificationQeue.EndReceive(rcea.AsyncResult);
+            /*System.Messaging.Message msg = notificationQeue.EndReceive(rcea.AsyncResult);
 
             string received = (string)msg.Body;
 
-            this.Invoke(() => { this.label1.Text = "Departamente respondeu ao ticket " + received; });
+            this.label1.Text = "Departamente respondeu ao ticket " + msg;
 
-           
+              */
+
+            fetchTickets();
+
+            Console.WriteLine("tickets fetched");
 
             notificationQeue.BeginReceive();
-
-            refreshDataTB(loggedid);
         }
 
         private bool sendMessageToExternalSolver(Ticket t)
@@ -171,14 +146,12 @@ namespace TTClient
 
         private void sendMsg(object sender, EventArgs e)
         {
-            /*qeue.Send((string)sendTB.Text.Trim());*/
-            if (dataGridView1.SelectedRows.Count == 0)
+            if(listBox1.SelectedIndex == -1)
             {
-                this.statusLabel.Text = "Tem de selecionaruma linha";
                 return;
             }
 
-            string id = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
+            string id = selectedTicket.Id;
 
             string secundaryTitle = textBox1.Text;
 
@@ -186,13 +159,13 @@ namespace TTClient
 
             DateTime moment = DateTime.Now;
 
-            Ticket toSend = new Ticket(user, "example@gmail.com", secundaryTitle, secundaryDescription, moment, id);
+            Ticket toSend = new Ticket(currentUser.Username, "example@gmail.com", secundaryTitle, secundaryDescription, moment, id);
             
             if(sendMessageToExternalSolver(toSend))
             {
                 this.statusLabel.Text = "Ticket enviado";
                 proxy.AddWating(id, secundaryTitle, secundaryDescription);
-                refreshDataTB(loggedid);
+                fetchAndAddTicketsToList();
             }
             else
             {
@@ -203,39 +176,102 @@ namespace TTClient
 
         private void onSubmit(object sender, EventArgs e)
         {
-            // buscar id do utilizador
-            string userId = userDict[usersCB.Text];
-            string userName = usersCB.Text;
-            // buscar id to ticket 
-            Ticket tic = null;
-            foreach (Ticket elem in ticketList)
+            if(listBox1.SelectedIndex != -1 &&  usersCB.SelectedIndex != -1)
             {
-                if (elem.Id == ticketsCB.Text)
-                {
-                    tic = elem;
-                }
+                proxy.updateAssigned(selectedUser.Username, selectedTicket.Id);
+                fetchAndAddTicketsToList();
             }
-            proxy.updateAssigned(userName, tic.Id);
-            refreshDataTB(loggedid);
         }
-
-
 
         private void SubmitAnswer(object sender, EventArgs e)
         {
             string answer = answerBox.Text;
-            if (selectLabel != null)
+            if (listBox1.SelectedIndex != -1)
             {
-                proxy.AddAnswer(answer, selectCell);
-                refreshDataTB(loggedid);
+                proxy.AddAnswer(answer, selectedTicket.Id);
+                fetchAndAddTicketsToList();
                 answerBox.Text = "";
             }
         }
 
-        private void SelectCell(object sender, DataGridViewCellEventArgs e)
+        private void loadTicketsToListBox()
         {
-            selectCell = (dataGridView1.CurrentCell.RowIndex + 1).ToString();
-            selectLabel.Text = "Id of the Ticket selected: " + selectCell + "";
+            listBox1.Items.Clear();
+            int index = 0;
+
+            foreach(Ticket t in ticketList)
+            {
+                listBox1.Items.Insert(index,t.Id.ToString() + " - " + t.Title + " - " + t.State);
+                index++;
+            }
+        }
+
+        private void fetchAndAddTicketsToList()
+        {
+            fetchTickets();
+            loadTicketsToListBox();
+        }
+
+        private void fetchTickets()
+        {
+            Console.WriteLine("Fetching tickets");
+            DataTable tickets = filterData();
+            ticketList = Ticket.getTickets(tickets);
+        }
+
+        private void ITPage_Load(object sender, EventArgs e)
+        {
+            fetchAndAddTicketsToList();
+            loadUsers();
+
+            usersDropDown();
+
+            qeue = new MessageQueue();
+            notificationQeue = new MessageQueue();
+            qeue.Formatter = new XmlMessageFormatter(new Type[] { typeof(Ticket) });
+            notificationQeue.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
+
+            initializeQeue(qeue, qeuePath);
+            initializeQeue(notificationQeue, notificationqeuePath);
+
+            notificationQeue.ReceiveCompleted += notificationReceiver;
+            notificationQeue.BeginReceive();
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            fetchAndAddTicketsToList();
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedTicket = (Ticket)ticketList[listBox1.SelectedIndex];
+            displayTicketInfo();
+            selectLabel.Text = "Id of the Ticket selected: " + selectedTicket.Id + "";
+        }
+
+        private void displayTicketInfo()
+        {
+            textBox3.Text = "";
+
+            textBox3.Text += "Title: " + selectedTicket.Title;
+
+            textBox3.Text += "\r\n\r\nDescription: " + selectedTicket.Description;
+
+            textBox3.Text += "\r\n\r\nCreated by " + selectedTicket.AuthorName + " on " + selectedTicket.Creation.ToString();
+
+            if (selectedTicket.SecundaryQuestionTitle.Length != 0)
+            {
+                textBox3.Text += "\r\n\r\nSecundary quetion title: " + selectedTicket.SecundaryQuestionTitle;
+                textBox3.Text += "\r\n\r\nSecundary quetion Description: " + selectedTicket.SecundaryQuestionDescription;
+                textBox3.Text += "\r\n\r\nSecundary quetion Answer: " + selectedTicket.SecundaryQuestionAnswer;
+            }
+        }
+
+        private void usersCB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedUser = (User)userList[usersCB.SelectedIndex];
         }
     }
 }

@@ -50,7 +50,7 @@ namespace TTService
                 try
                 {
                     c.Open();
-                    string sql = "insert into TTickets(Author, Problem, Title, Date, Answer, Status) values (@a1, @p1, @t1, @d1,'', 1)"; // injection protection
+                    string sql = "insert into TTickets(Author, Description, Title, Date) values (@a1, @p1, @t1, @d1)"; // injection protection
                     SqlCommand cmd = new SqlCommand(sql, c);                                                       // injection protection
                     DateTime time = DateTime.Now;
                     string format = "yyyy-MM-dd HH:mm:ss";
@@ -62,8 +62,9 @@ namespace TTService
                     cmd.CommandText = "select max(Id) from TTickets";
                     id = (int)cmd.ExecuteScalar();
                 }
-                catch (SqlException)
+                catch (SqlException e)
                 {
+                    Console.WriteLine(e.Message);
                 }
                 finally
                 {
@@ -137,6 +138,8 @@ namespace TTService
         {
             DataTable result = new DataTable("TTickets");
 
+            Console.WriteLine( "Tickets query from user " + author);
+
             using (SqlConnection c = new SqlConnection(database))
             {
                 try
@@ -161,7 +164,7 @@ namespace TTService
 
         public DataTable GetTicketsAssign(string assign)
         {
-            Console.WriteLine(assign);
+            
             DataTable result = new DataTable("TTickets");
             using (SqlConnection c = new SqlConnection(database))
             {
@@ -174,6 +177,7 @@ namespace TTService
                     cmd.Parameters.AddWithValue("@a2", "unassigned");
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     adapter.Fill(result);
+                    Console.WriteLine("resultado returnado");
                 }
                 catch (SqlException ex)
                 {

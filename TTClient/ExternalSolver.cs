@@ -112,7 +112,6 @@ namespace TTClient
         {
             selectedTicketIndex = listBox1.SelectedIndex;
             displayTicketInfo();
-
         }
 
         private void displayTicketInfo()

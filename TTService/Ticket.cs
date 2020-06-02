@@ -19,6 +19,11 @@ namespace TTService
         private string state;
         private string id;
 
+        private string answer;
+        private string secundaryQuestionTitle;
+        private string secundaryQuestionDescription;
+        private string secundaryQuestionAnswer;
+
         public Ticket()
         {
 
@@ -43,6 +48,10 @@ namespace TTService
 
 
         public string State { get => state; set => state = value; }
+        public string SecundaryQuestionTitle { get => secundaryQuestionTitle; set => secundaryQuestionTitle = value; }
+        public string SecundaryQuestionDescription { get => secundaryQuestionDescription; set => secundaryQuestionDescription = value; }
+        public string SecundaryQuestionAnswer { get => secundaryQuestionAnswer; set => secundaryQuestionAnswer = value; }
+        public string Answer { get => answer; set => answer = value; }
 
         public static ArrayList getTickets(DataTable dataTable)
         {
@@ -56,9 +65,19 @@ namespace TTService
                 string elemAuthor = row["Author"].ToString();
                 string elemTitle = row["Title"].ToString();
                 string elemState = row["State"].ToString();
+                string desc = row["Description"].ToString();
+                string answer = row["Answer"].ToString();
+                string secTitle = row["SecundaryQuestionTitle"].ToString();
+                string secDesc = row["SecundaryQuestionDesciption"].ToString();
+                string secAnswer = row["SecundaryQuestionAnswer"].ToString();
                 var ticket = new Ticket(elemAuthor, "", elemTitle, "", DateTime.Now, elemId);
                 ticket.State = elemState;
                 ticket.Id = elemId;
+                ticket.Description = desc;
+                ticket.Answer = answer;
+                ticket.secundaryQuestionTitle = secTitle;
+                ticket.secundaryQuestionDescription = secDesc;
+                ticket.secundaryQuestionAnswer = secAnswer;
                 ticketsList.Add(ticket);
             }
             return ticketsList;

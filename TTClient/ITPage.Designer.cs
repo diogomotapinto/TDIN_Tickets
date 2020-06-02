@@ -28,12 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.SendButton = new System.Windows.Forms.Button();
             this.usersCB = new System.Windows.Forms.ComboBox();
-            this.ticketsCB = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.answerBox = new System.Windows.Forms.RichTextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -44,24 +41,10 @@
             this.labelDesc = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.statusLabel = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(219, 52);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersWidth = 82;
-            this.dataGridView1.Size = new System.Drawing.Size(664, 565);
-            this.dataGridView1.TabIndex = 2;
-            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.SelectCell);
             // 
             // SendButton
             // 
@@ -77,24 +60,16 @@
             // usersCB
             // 
             this.usersCB.FormattingEnabled = true;
-            this.usersCB.Location = new System.Drawing.Point(2, 529);
+            this.usersCB.Location = new System.Drawing.Point(12, 529);
             this.usersCB.Margin = new System.Windows.Forms.Padding(2);
             this.usersCB.Name = "usersCB";
-            this.usersCB.Size = new System.Drawing.Size(208, 21);
+            this.usersCB.Size = new System.Drawing.Size(198, 21);
             this.usersCB.TabIndex = 7;
-            // 
-            // ticketsCB
-            // 
-            this.ticketsCB.FormattingEnabled = true;
-            this.ticketsCB.Location = new System.Drawing.Point(2, 567);
-            this.ticketsCB.Margin = new System.Windows.Forms.Padding(2);
-            this.ticketsCB.Name = "ticketsCB";
-            this.ticketsCB.Size = new System.Drawing.Size(208, 21);
-            this.ticketsCB.TabIndex = 8;
+            this.usersCB.SelectedIndexChanged += new System.EventHandler(this.usersCB_SelectedIndexChanged);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(38, 592);
+            this.button1.Location = new System.Drawing.Point(43, 554);
             this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(115, 25);
@@ -103,20 +78,10 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.onSubmit);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 552);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 13);
-            this.label1.TabIndex = 10;
-            this.label1.Text = "Ticket ID";
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 514);
+            this.label2.Location = new System.Drawing.Point(11, 514);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(78, 13);
@@ -165,7 +130,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(9, 131);
+            this.textBox1.Location = new System.Drawing.Point(12, 131);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(181, 20);
             this.textBox1.TabIndex = 10;
@@ -204,45 +169,68 @@
             this.statusLabel.Name = "statusLabel";
             this.statusLabel.Size = new System.Drawing.Size(664, 23);
             this.statusLabel.TabIndex = 16;
-            this.statusLabel.Text = "";
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(223, 88);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(199, 524);
+            this.listBox1.TabIndex = 17;
+            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(449, 36);
+            this.textBox3.Multiline = true;
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(434, 248);
+            this.textBox3.TabIndex = 18;
+            // 
+            // button2
+            // 
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.Location = new System.Drawing.Point(223, 46);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(199, 36);
+            this.button2.TabIndex = 19;
+            this.button2.Text = "ATUALIZAR";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // ITPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(895, 629);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.answerButton);
             this.Controls.Add(this.selectLabel);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.answerBox);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.labelDesc);
             this.Controls.Add(this.labelID);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.ticketsCB);
             this.Controls.Add(this.usersCB);
             this.Controls.Add(this.SendButton);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.statusLabel);
             this.Name = "ITPage";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.Load += new System.EventHandler(this.ITPage_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button SendButton;
         private System.Windows.Forms.ComboBox usersCB;
-        private System.Windows.Forms.ComboBox ticketsCB;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.RichTextBox answerBox;
         private System.Windows.Forms.Label label3;
@@ -253,5 +241,8 @@
         private System.Windows.Forms.Label labelDesc;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label statusLabel;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Button button2;
     }
 }

@@ -50,7 +50,7 @@ namespace TTClient
         {
             User selected = (TTService.User)users[comboBox1.SelectedIndex];
             
-            Form toShow = selected.Role.Equals("external_solver") ? (Form)new ExternalSolver(selected) : new ITPage(selected.Username, selected.Id.ToString());
+            Form toShow = selected.Role.Equals("external_solver") ? (Form)new ExternalSolver(selected) : new ITPage(selected);
 
             toShow.Tag = this;
             toShow.Show(this);
